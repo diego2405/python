@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import time
 
 from common import draw_keypoints
 
@@ -26,24 +27,38 @@ cap = cv2.VideoCapture(0)
 
 fgbg = cv2.createBackgroundSubtractorMOG2(detectShadows=True)
 i=0
+
 while(True):
+    t0 = time.clock()
     # Capture frame-by-frame
     ret, frame = cap.read()
     # Our operations on the frame come here
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    
+    fgmask = fgbg.apply(frame) # detectar primer plano en movimiento
+    retval, thresh = cv2.threshold(fgmask, 200, 256, cv2.THRESH_BINARY); #eliminar sombra
+    enmask = cv2.cvtColor(thresh, cv2.COLOR_GRAY2RGB); #triplicar canales, para poder compararlos con un frame en RGB
+    enmask = cv2.bitwise_and(frame,enmask)
     '''
-    fgmask = fgbg.apply(frame)
-
-    kp1, desc1 = detector.detectAndCompute(fgmask, None)
-    draw_keypoints(frame,kp1)
+    if i%24 == 0:
+        kp1, desc1 = detector.detectAndCompute(fgmask, None)
+        draw_keypoints(frame,kp1)
+    
+        #cv2.imshow('frame2',fgmask)
     '''
-    #cv2.imshow('frame2',fgmask)
-
     # Display the resulting frame
-    print 'frame ',i
-    i=i+1
+    #print 'frame ',i
+    
+        
+        #t1 = time.clock() - t0
+    
+        #print 1. / t1
+        #t0 = t1
     cv2.imshow('frame',frame)
-
+    #cv2.imshow('fgmask',fgmask)
+    cv2.imshow('thresh',thresh)
+    cv2.imshow('enmask',enmask)
+    i=i+1
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
