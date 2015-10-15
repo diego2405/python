@@ -40,27 +40,36 @@ def playVideo(nombre, descriptores):
 			max_index = np.argmax(areas)
 			cnt=contours[max_index]
 			x,y,w,h = cv2.boundingRect(cnt)
-			cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
 			area = w * h
+			#print 'area:%d' % area
 			#print 'area: ', w*h
-			if area > 1000 & i % 12 == 0:
+			#print len(descriptores)
+			if (area > 1000 ) & (h > w):
+				cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
 				roi_index = roi_index + 1
 				roi = enmask[y:y+h,x:x+w]
 				kp, desc = detector.detectAndCompute(roi, None)
-				if len(kp) > 40:
+				print 'posicion: ({},{}) tamano:({},{}) area: {}'.format(x,y,w,h,area)
+				if len(kp) > 30:
 					for par in descriptores:
 						raw_matches = matcher.knnMatch(par.descriptor, trainDescriptors = desc, k = 2) #2		
 						p1, p2, kp_pairs = filter_matches(par.keypoints, kp, raw_matches)
 						if len(p1) >= 4:
 							H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
+							print 'status', status
 							print '%d / %d  inliers/matched' % (np.sum(status), len(status))				
-							vis = explore_match('find_obj', par.image, roi, kp_pairs, status, H)
+							vis = explore_match('find_obj', roi, par.image, kp_pairs, status, H)
 						else:
 							H, status = None, None
-							print '%d matches found, not enough for homography estimation' % len(p1)
+							#print '%d matches found, not enough for homography estimation' % len(p1)
 					par = Par(kp,desc,roi)	
+					print 'GUARDANDO...'
 					descriptores.append(par)
-
+					'''
+					draw_keypoints(roi,kp)
+					tmp = str.split(nombre,'.')[0]
+					cv2.imwrite('{}{}.png'.format(tmp,i),roi)
+					'''
 				'''
 				raw_matches = matcher.knnMatch(desc1, trainDescriptors = desc2, k = 2) #2
 				p1, p2, kp_pairs = filter_matches(kp1, kp2, raw_matches)
@@ -79,7 +88,10 @@ def playVideo(nombre, descriptores):
 				'''
 
 		cv2.imshow('frame',frame)
-		if cv2.waitKey(50) & 0xFF == ord('q'):
+		#cv2.imshow('fgmask',fgmask)
+		#cv2.imshow('thresh',thresh)
+		#cv2.imshow('enmask',enmask)
+		if cv2.waitKey(41) & 0xFF == ord('q'):
 			# When everything done, release the capture
 			break
 		t1 = time.clock() - t0
