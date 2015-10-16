@@ -5,6 +5,7 @@ import time
 from common import draw_keypoints, anorm, getsize
 from find_obj import explore_match, filter_matches
 
+dirsalida = '/home/diego/salida/'
 class Par():
 	def __init__(self,keypoints,descriptor,image):
 		self.keypoints = keypoints
@@ -37,61 +38,46 @@ def playVideo(nombre, descriptores):
 		# Find the index of the largest contour
 		areas = [cv2.contourArea(c) for c in contours]
 		if len(areas) > 0:
+			print 'ROIs:',len(areas)
 			max_index = np.argmax(areas)
 			cnt=contours[max_index]
 			x,y,w,h = cv2.boundingRect(cnt)
 			area = w * h
-			#print 'area:%d' % area
-			#print 'area: ', w*h
-			#print len(descriptores)
-			if (area > 1000 ) & (h > w):
-				cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1)
+			print 'area: ', area
+			if (area > 100 ) & (h > w): #caviar-area: 500, visor-area: 1000
+				cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
+				cv2.circle(frame, (int(x+(w/2)), int(y+(h/2))), 2, (0,255,0)) #dibujar punto en centro del rectangulo
 				roi_index = roi_index + 1
 				roi = enmask[y:y+h,x:x+w]
 				kp, desc = detector.detectAndCompute(roi, None)
-				print 'posicion: ({},{}) tamano:({},{}) area: {}'.format(x,y,w,h,area)
-				if len(kp) > 30:
+				print len(kp)
+				#print 'posicion: ({},{}) tamano:({},{}) area: {}'.format(x,y,w,h,area)
+				if len(kp) > 0: #caviar: 4 , visor:20
 					for par in descriptores:
 						raw_matches = matcher.knnMatch(par.descriptor, trainDescriptors = desc, k = 2) #2		
 						p1, p2, kp_pairs = filter_matches(par.keypoints, kp, raw_matches)
 						if len(p1) >= 4:
 							H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
-							print 'status', status
-							print '%d / %d  inliers/matched' % (np.sum(status), len(status))				
+							if status is not None:
+								print '%d / %d  inliers/matched' % (np.sum(status), len(status))
+								'''
+								tmp1 = 'match{}_1.png'.format(i)
+								tmp2 = 'match{}_2.png'.format(i)
+								cv2.imwrite('{}{}'.format(dirsalida,tmp1),par.image)
+								cv2.imwrite('{}{}'.format(dirsalida,tmp2),roi)
+								'''
 							vis = explore_match('find_obj', roi, par.image, kp_pairs, status, H)
 						else:
 							H, status = None, None
 							#print '%d matches found, not enough for homography estimation' % len(p1)
 					par = Par(kp,desc,roi)	
-					print 'GUARDANDO...'
+					print 'descriptores guardados:', len(descriptores)
 					descriptores.append(par)
-					'''
-					draw_keypoints(roi,kp)
-					tmp = str.split(nombre,'.')[0]
-					cv2.imwrite('{}{}.png'.format(tmp,i),roi)
-					'''
-				'''
-				raw_matches = matcher.knnMatch(desc1, trainDescriptors = desc2, k = 2) #2
-				p1, p2, kp_pairs = filter_matches(kp1, kp2, raw_matches)
-				if len(p1) >= 4:
-					H, status = cv2.findHomography(p1, p2, cv2.RANSAC, 5.0)
-					#print '%d / %d  inliers/matched' % (np.sum(status), len(status))
-					print 'mas de 4 match'
-						
-					vis = explore_match('find_obj', img2, roi, kp_pairs, status, H)
-				else:
-					H, status = None, None
-					#print '%d matches found, not enough for homography estimation' % len(p1)
-				#draw_keypoints(roi,kp1)
-				#cv2.imshow('ROI',roi)
-				#vis = explore_match('find_obj', img2, roi, kp_pairs, status, H)
-				'''
-
 		cv2.imshow('frame',frame)
 		#cv2.imshow('fgmask',fgmask)
 		#cv2.imshow('thresh',thresh)
 		#cv2.imshow('enmask',enmask)
-		if cv2.waitKey(41) & 0xFF == ord('q'):
+		if cv2.waitKey(20) & 0xFF == ord('q'):
 			# When everything done, release the capture
 			break
 		t1 = time.clock() - t0
