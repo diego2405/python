@@ -86,3 +86,5 @@ def playVideo(nombre, descriptores):
 		i=i+1
 	#cap.release()
 
+
+
