@@ -134,7 +134,7 @@ def buscarEnGaleria(nombre,galeria,archivo):
 							matches_bajoUmbral.append(m)
 					#print 'matches_bajoUmbral:',len(matches_bajoUmbral)
 					if len(matches_bajoUmbral)>4:
-						img3 = cv2.drawMatches(par.image,par.keypoints,roi,kp,matches_bajoUmbral,par.image,0)
+						img3 = cv2.drawMatches(par.image,par.keypoints,roi,kp,matches_bajoUmbral,par.image,flags=2)
 						cv2.imshow('img3',img3)
 						r = cv2.waitKey(10000)
 						if r == ord('1'):
