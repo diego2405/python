@@ -72,6 +72,7 @@ def almacenarKeypoints(nombre,galeria):
 
 
 def buscarEnGaleria(nombre,galeria,archivo):
+	global distanciaUmbral, minMatches
 	cap = cv2.VideoCapture(nombre)
 	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
 	fgbg = cv2.createBackgroundSubtractorMOG2(detectShadows=True)
@@ -118,22 +119,16 @@ def buscarEnGaleria(nombre,galeria,archivo):
 				for par in galeria:
 					#raw_matches = matcher.knnMatch(par.descriptor, trainDescriptors = desc, k = 2) #2		
 					matches = matcher.match(par.descriptor, desc) 		
-					matches = sorted(matches, key = lambda x:x.distance)
-					matchesMask = [[0,0] for i in xrange(len(matches))]
-					draw_params = dict(matchColor = (0,255,0),
-						singlePointColor = (255,0,0),
-						matchesMask = matchesMask,
-						flags = 0)
-					
+					#matches = sorted(matches, key = lambda x:x.distance)
 					#if len(matches)>0:
 					#	print 'menor:',matches[0].distance
 					
 					matches_bajoUmbral = []
 					for m in matches:
-						if m.distance < 300:
+						if m.distance < distanciaUmbral:
 							matches_bajoUmbral.append(m)
 					#print 'matches_bajoUmbral:',len(matches_bajoUmbral)
-					if len(matches_bajoUmbral)>4:
+					if len(matches_bajoUmbral)>minMatches:
 						img3 = cv2.drawMatches(par.image,par.keypoints,roi,kp,matches_bajoUmbral,par.image,flags=2)
 						cv2.imshow('img3',img3)
 						r = cv2.waitKey(10000)
@@ -162,33 +157,36 @@ def buscarEnGaleria(nombre,galeria,archivo):
 
 #wd = '/home/diego/Videos-REID/micc_surveillance_dataset/run'
 #wd = '/home/diego/Videos-REID/caviar/Leaving-bags-behind'
-wd = '/home/diego/Videos-REID/caviar/shoping'
+#wd = '/home/diego/Videos-REID/caviar/shoping'
+wd = '/home/diego/Videos-REID/caviar/shopping-seleccion'
 #wd = '/home/diego/Videos-REID/Panaderia'
 
 descriptores=[]
 #playVideo(0,descriptores)
 
+distanciaUmbral = 200
+minMatches = 1
+f=open('resultados.csv','a')
+print >>,f,'Metodo: PAPER'
+print >>f,'distanciaUmbral:{}'.format(distanciaUmbral)
+print >>f,'minMatches:{}'.format(minMatches)
+f.close()
 files = os.listdir(wd)
 files = sorted(files)
 
 frame_interval = 1
 parametros_camara = [] # minX maxX minY maxY minArea
 galeria = []
+i = 1
 for f in files:
 	nombre = '{}{}{}'.format(wd,'/',f)
 	if 'cor.mpg' in f:
+		print 'video',i
+		i += 1
 		galeria = []
 		almacenarKeypoints(nombre,galeria)
 	elif 'front.mpg' in f:
 		buscarEnGaleria(nombre,galeria,f)
-		'''
-		print 'Salir? (s/n)'
-		r=raw_input()
-		if r=='s':
-			break
-		else:
-			continue
-		'''
 	#cap = cv2.VideoCapture(nombre)
 	#playVideo(nombre,descriptores)
 	#detectar(nombre,frame_interval,parametros_camara)
