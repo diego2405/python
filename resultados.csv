@@ -1,74 +1,86 @@
-EnterExitCrossingPaths1front.mpg,4,5
-EnterExitCrossingPaths2front.mpg,47,39
-OneLeaveShop1front.mpg,1,2
-OneLeaveShop2front.mpg,0,0
-OneLeaveShopReenter1front.mpg,0,0
-EnterExitCrossingPaths1front.mpg,3,6
-EnterExitCrossingPaths2front.mpg,58,28
-EnterExitCrossingPaths1front.mpg,0,0
-EnterExitCrossingPaths2front.mpg,0,0
-OneLeaveShop1front.mpg,0,0
-OneLeaveShop2front.mpg,0,0
-OneLeaveShopReenter1front.mpg,0,5
-distanciaUmbral:300
-minMatches:4
-EnterExitCrossingPaths1front.mpg,1,8
-EnterExitCrossingPaths2front.mpg,44,28
-OneLeaveShop1front.mpg,2,2
-OneLeaveShop2front.mpg,5,5
-OneLeaveShopReenter1front.mpg,0,5
-OneLeaveShopReenter2front.mpg,51,42
-OneShopOneWait1front.mpg,76,98
-distanciaUmbral:300
-minMatches:4
-distanciaUmbral:300
-minMatches:20
-EnterExitCrossingPaths1front.mpg,0,0
-EnterExitCrossingPaths2front.mpg,0,0
-OneLeaveShop1front.mpg,0,0
-OneLeaveShop2front.mpg,0,0
-OneLeaveShopReenter1front.mpg,0,0
-OneLeaveShopReenter2front.mpg,0,0
-distanciaUmbral:400
-minMatches:20
-distanciaUmbral:200
-minMatches:1
-EnterExitCrossingPaths1front.mpg,0,0
-EnterExitCrossingPaths2front.mpg,4,4
-OneLeaveShop1front.mpg,0,0
-OneLeaveShop2front.mpg,0,0
-OneLeaveShopReenter1front.mpg,0,0
-OneLeaveShopReenter2front.mpg,2,9
-OneShopOneWait1front.mpg,5,15
-OneShopOneWait2front.mpg,23,10
-OneStopEnter1front.mpg,16,3
-OneStopEnter2front.mpg,26,13
-OneStopMoveEnter1front.mpg,0,137
-distanciaUmbral:200
-minMatches:1
-EnterExitCrossingPaths1front.mpg,0,2
-EnterExitCrossingPaths2front.mpg,3,5
-OneLeaveShop1front.mpg,0,0
-OneLeaveShop2front.mpg,0,0
-OneLeaveShopReenter1front.mpg,0,0
-OneLeaveShopReenter2front.mpg,2,9
-OneShopOneWait1front.mpg,9,11
-OneShopOneWait2front.mpg,20,13
-OneStopEnter1front.mpg,11,8
-OneStopEnter2front.mpg,27,12
-OneStopMoveEnter1front.mpg,0,137
-OneStopMoveEnter2front.mpg,17,4
-OneStopMoveNoEnter1front.mpg,1,0
-OneStopMoveNoEnter2front.mpg,44,15
-OneStopNoEnter1front.mpg,6,10
-OneStopNoEnter2front.mpg,77,86
-ShopAssistant1front.mpg,18,12
-ShopAssistant2front.mpg,7,177
-ThreePastShop1front.mpg,26,43
-ThreePastShop2front.mpg,0,85
-TwoEnterShop1front.mpg,14,90
-TwoEnterShop2front.mpg,4,132
-TwoEnterShop3front.mpg,0,0
-TwoLeaveShop1front.mpg,0,0
-TwoLeaveShop2front.mpg,0,0
-WalkByShop1front.mpg,0,0
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,1
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,1
+tamano galeria 30
+pruebas, 12
+TP, 4
+FP, 8
+precision, 0.333333333333
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria 20
+pruebas, 8
+TP, 8
+FP, 0
+precision, 1.0
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria 12
+pruebas, 3
+TP, 3
+FP, 0
+precision, 1.0
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+tamano galeria 25
+pruebas, 4
+TP, 4
+FP, 0
+precision, 1.0
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+tamano galeria 22
+pruebas, 22
+TP, 13
+FP, 9
+precision, 0.590909090909
+Archivo, OneLeaveShopReenter2front.mpg
+-------------------------------
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,1
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,1
+tamano galeria 102
+pruebas, 14
+TP, 3
+FP, 11
+precision, 0.214285714286
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria 329
+pruebas, 8
+TP, 6
+FP, 2
+precision, 0.75
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria 332
+pruebas, 3
+TP, 2
+FP, 1
+precision, 0.666666666667
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+tamano galeria 367
+pruebas, 4
+TP, 0
+FP, 4
+precision, 0.0
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+tamano galeria 395
+pruebas, 24
+TP, 3
+FP, 21
+precision, 0.125
+Archivo, OneLeaveShopReenter2front.mpg
+-------------------------------
