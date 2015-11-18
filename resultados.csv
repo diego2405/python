@@ -84,3 +84,640 @@ FP, 21
 precision, 0.125
 Archivo, OneLeaveShopReenter2front.mpg
 -------------------------------
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,1
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,1
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShopReenter2front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneShopOneWait1front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneShopOneWait2front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneStopEnter1front.mpg
+-------------------------------
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,1
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,1
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,24
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,1
+tamano galeria 4
+pruebas, 2
+TP, 1
+FP, 1
+precision, 0.5
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria 19
+pruebas, 1
+TP, 1
+FP, 0
+precision, 1.0
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria 20
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+tamano galeria 21
+pruebas, 2
+TP, 1
+FP, 1
+precision, 0.5
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+tamano galeria 23
+pruebas, 5
+TP, 0
+FP, 5
+precision, 0.0
+Archivo, OneLeaveShopReenter2front.mpg
+-------------------------------
+tamano galeria 41
+pruebas, 10
+TP, 5
+FP, 5
+precision, 0.5
+Archivo, OneShopOneWait1front.mpg
+-------------------------------
+tamano galeria 57
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,24
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,1
+tamano galeria 4
+pruebas, 1
+TP, 1
+FP, 0
+precision, 1.0
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria 19
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,24
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,1
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1cor.mpg
+-------------------------------
+tamano galeria 4
+pruebas, 4
+TP, 3
+FP, 1
+precision, 0.75
+Archivo, EnterExitCrossingPaths2cor.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria 9
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop2cor.mpg
+-------------------------------
+tamano galeria 10
+pruebas, 1
+TP, 0
+FP, 1
+precision, 0.0
+Archivo, OneLeaveShopReenter2cor.mpg
+-------------------------------
+tamano galeria 12
+tamano galeria 30
+pruebas, 7
+TP, 6
+FP, 1
+precision, 0.857142857143
+Archivo, OneShopOneWait1front.mpg
+-------------------------------
+tamano galeria 46
+pruebas, 14
+TP, 9
+FP, 5
+precision, 0.642857142857
+Archivo, OneShopOneWait2front.mpg
+-------------------------------
+pruebas, 17
+TP, 3
+FP, 14
+precision, 0.176470588235
+Archivo, OneStopEnter1cor.mpg
+-------------------------------
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,24
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,1
+pruebas, 11
+TP, 3
+FP, 8
+precision, 0.272727272727
+Archivo, ch01-151022-180957-190926.avi
+-------------------------------
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval1,12
+frame_interval2,6
+minArea1,3000
+minArea2,400
+proporcionMinima,0.5
+pruebas, 39
+TP, 19
+FP, 20
+precision, 0.487179487179
+Archivo, ch01-151022-180957-190926.avi
+-------------------------------
+Metodo, DR
+distanciaUmbral,250
+minMatches,1
+frame_interval, 2
+minArea1,800
+proporcionMinima,1.0
+tamano galeria 28
+pruebas, 16
+TP, 13
+FP, 3
+precision, 0.8125
+Archivo, ch01-151022-180957-190926.avi  (camioneata roja 1)
+-------------------------------
+Metodo, DR
+distanciaUmbral,500
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,1.0
+Metodo, DR
+distanciaUmbral,500
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,1.0
+tamano galeria 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+Metodo, DR
+distanciaUmbral,500
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,1.0
+Metodo, DR
+distanciaUmbral,300
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,1.0
+tamano galeria 15
+pruebas, 44
+TP, 22
+FP, 22
+precision, 0.5
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria 30
+pruebas, 11
+TP, 10
+FP, 1
+precision, 0.909090909091
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria 32
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+tamano galeria 47
+pruebas, 2
+TP, 2
+FP, 0
+precision, 1.0
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+tamano galeria 62
+pruebas, 7
+TP, 5
+FP, 2
+precision, 0.714285714286
+Archivo, OneLeaveShopReenter1front.mpg
+-------------------------------
+tamano galeria 62
+pruebas, 7
+TP, 4
+FP, 3
+precision, 0.571428571429
+Archivo, OneLeaveShopReenter2front.mpg
+-------------------------------
+tamano galeria 64
+pruebas, 55
+TP, 40
+FP, 15
+precision, 0.727272727273
+Archivo, OneShopOneWait1front.mpg
+-------------------------------
+tamano galeria 89
+pruebas, 12
+TP, 9
+FP, 3
+precision, 0.75
+Archivo, OneShopOneWait2front.mpg
+-------------------------------
+tamano galeria 116
+pruebas, 30
+TP, 17
+FP, 13
+precision, 0.566666666667
+Archivo, OneStopEnter1front.mpg
+-------------------------------
+tamano galeria 134
+pruebas, 23
+TP, 12
+FP, 11
+precision, 0.521739130435
+Archivo, OneStopEnter2front.mpg
+-------------------------------
+tamano galeria 134
+pruebas, 12
+TP, 6
+FP, 6
+precision, 0.5
+Archivo, OneStopMoveEnter1front.mpg
+-------------------------------
+tamano galeria 134
+pruebas, 52
+TP, 18
+FP, 34
+precision, 0.346153846154
+Archivo, OneStopMoveEnter2front.mpg
+-------------------------------
+tamano galeria 134
+pruebas, 40
+TP, 21
+FP, 19
+precision, 0.525
+Archivo, OneStopMoveNoEnter1front.mpg
+-------------------------------
+tamano galeria 144
+pruebas, 33
+TP, 9
+FP, 24
+precision, 0.272727272727
+Archivo, OneStopMoveNoEnter2front.mpg
+-------------------------------
+Metodo, DR
+distanciaUmbral,300
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,1.0
+tamano galeria 16
+pruebas, 18
+TP, 13
+FP, 5
+precision, 0.722222222222
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+Metodo, DR
+distanciaUmbral,300
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria 25
+pruebas, 23
+TP, 10
+FP, 13
+precision, 0.434782608696
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria 104
+pruebas, 3
+TP, 3
+FP, 0
+precision, 1.0
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria 104
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+Metodo, DR
+distanciaUmbral,200
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria 10
+pruebas, 9
+TP, 5
+FP, 4
+precision, 0.555555555556
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria 20
+pruebas, 3
+TP, 1
+FP, 2
+precision, 0.333333333333
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria 20
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+tamano galeria 25
+pruebas, 3
+TP, 0
+FP, 3
+precision, 0.0
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+tamano galeria 31
+pruebas, 5
+TP, 2
+FP, 3
+precision, 0.4
+Archivo, OneLeaveShopReenter1front.mpg
+-------------------------------
+tamano galeria 31
+pruebas, 9
+TP, 3
+FP, 6
+precision, 0.333333333333
+Archivo, OneLeaveShopReenter2front.mpg
+-------------------------------
+tamano galeria 31
+pruebas, 13
+TP, 9
+FP, 4
+precision, 0.692307692308
+Archivo, OneShopOneWait1front.mpg
+-------------------------------
+tamano galeria 36
+pruebas, 9
+TP, 6
+FP, 3
+precision, 0.666666666667
+Archivo, OneShopOneWait2front.mpg
+-------------------------------
+tamano galeria 50
+pruebas, 12
+TP, 9
+FP, 3
+precision, 0.75
+Archivo, OneStopEnter1front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 17
+TP, 14
+FP, 3
+precision, 0.823529411765
+Archivo, OneStopEnter2front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneStopMoveEnter1front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneStopMoveEnter2front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneStopMoveNoEnter1front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneStopMoveNoEnter2front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneStopNoEnter1front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneStopNoEnter2front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, ShopAssistant1front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, ShopAssistant2front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, ThreePastShop1front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, ThreePastShop2front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, TwoEnterShop1front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, TwoEnterShop2front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, TwoEnterShop3front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, TwoLeaveShop1front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, TwoLeaveShop2front.mpg
+-------------------------------
+tamano galeria 55
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, WalkByShop1front.mpg
+-------------------------------
