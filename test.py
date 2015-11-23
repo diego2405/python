@@ -14,169 +14,12 @@ class Par():
 		self.nombreVideo = nombreVideo
 
 
-def almacenarKeypoints(nombre,galeria):
-	global frame_interval, thresholdSombra, proporcionMinima, frame_interval1
-	cap = cv2.VideoCapture(nombre)
-	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
-	fgbg = cv2.createBackgroundSubtractorMOG2(detectShadows=True)
-	detector = cv2.xfeatures2d.SIFT_create()
-	i=0
-	roi_index = 0
-	levels=1
-	while True:
-		i=i+1
-		ret, frame = cap.read() # Capture frame-by-frame
-		if ret == False:
-			break
-		#gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # convertir frame a escala de grises
-		fgmask = fgbg.apply(frame) # detectar primer plano en movimiento
-
-		if (i%frame_interval1) != 0:
-			continue
-		fgmask = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel) #usando kernel para eliminar ruido
-		retval, thresh = cv2.threshold(fgmask, thresholdSombra, 256, cv2.THRESH_BINARY); #eliminar sombra
-		enmask = cv2.cvtColor(thresh, cv2.COLOR_GRAY2RGB); #triplicar canales, para poder compararlos con un frame en RGB
-		enmask = cv2.bitwise_and(frame,enmask) #enmascarar frame original
-		_, contours0,hierarchy = cv2.findContours(thresh,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE) #mi metodo
-		#_, contours0,hierarchy = cv2.findContours(fgmask,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE) # metodo paper
-		contours = [cv2.approxPolyDP(cnt, 3, True) for cnt in contours0]
-		# Find the index of the largest contour
-		areas = [cv2.contourArea(c) for c in contours]
-		if len(areas) > 0:
-			#print 'ROIs:',len(areas)
-			max_index = np.argmax(areas)
-			cnt=contours[max_index]
-			x,y,w,h = cv2.boundingRect(cnt)
-			area = w * h
-			proporcion = h / w
-			if (area > minArea1 ) & (proporcion >= proporcionMinima) : #caviar-area: 500, visor-area: 1000
-				#print 'proporcion',h/w
-				#print 'area: ', area
-				cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
-				#roi = enmask[y:y+h,x:x+w]
-				roi = frame[y:y+h,x:x+w]
-				kp, desc = detector.detectAndCompute(roi, None)
-				print 'keypoints: ',len(kp)
-				print 'galeria size: ',len(galeria)
-				r = cv2.waitKey(10000)
-				if r == ord('1'):
-					cv2.imshow('roi',roi)
-					par = Par(kp,desc,roi,nombre)	
-					galeria.append(par)	
-		cv2.imshow('frame',frame)
-		#cv2.imshow('fgmask',fgmask)
-		#cv2.imshow('thresh',thresh)
-		#cv2.imshow('enmask',enmask)
-		if cv2.waitKey(20) & 0xFF == ord('q'):
-			# When everything done, release the capture
-			break
-		#print 'frame:',i, ' rate: ', 1. / t1
-	cap.release()
-	f=open('resultados.csv','a')
-	print >>f,'tamano galeria',len(galeria)
-	f.close()
-	
-def buscarEnGaleria(nombre,galeria,archivo):
-	global distanciaUmbral, minMatches, frame_interval, thresholdSombra, proporcionMinima, frame_interval2
-	cap = cv2.VideoCapture(nombre)
-	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
-	fgbg = cv2.createBackgroundSubtractorMOG2(detectShadows=True)
-	detector = cv2.xfeatures2d.SIFT_create()
-	norm = cv2.NORM_L2
-	matcher = cv2.BFMatcher(norm)
-	maxint = pow(2,63)-1
-	i=0
-	roi_index = 0
-	levels=1
-	TP=0
-	FP=0
-	personasDetectadas = 0
-	while True:
-		i=i+1
-		ret, frame = cap.read() # Capture frame-by-frame
-		if ret == False:
-			break
-		#gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # convertir frame a escala de grises
-		fgmask = fgbg.apply(frame) # detectar primer plano en movimiento
-		if (i%frame_interval2) != 0:
-			continue
-		fgmask = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel) #usando kernel para eliminar ruido
-		retval, thresh = cv2.threshold(fgmask, thresholdSombra, 256, cv2.THRESH_BINARY); #eliminar sombra
-		enmask = cv2.cvtColor(thresh, cv2.COLOR_GRAY2RGB); #triplicar canales, para poder compararlos con un frame en RGB
-		enmask = cv2.bitwise_and(frame,enmask) #enmascarar frame original
-		_, contours0,hierarchy = cv2.findContours(thresh,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE)
-		#_, contours0,hierarchy = cv2.findContours(fgmask,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE) #metodo paper
-		contours = [cv2.approxPolyDP(cnt, 3, True) for cnt in contours0]
-		# Find the index of the largest contour
-		areas = [cv2.contourArea(c) for c in contours]
-		if len(areas) > 0:
-			#print 'ROIs:',len(areas)
-			max_index = np.argmax(areas)
-			cnt=contours[max_index]
-			x,y,w,h = cv2.boundingRect(cnt)
-			#print 'altura:',h
-			area = w * h
-			proporcion = h / w
-			if (area > minArea2 ) & (proporcion >= proporcionMinima): #caviar-area: 500, visor-area: 1000
-				#print 'proporcion',h/w
-				#print 'area: ', area
-				cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
-				#roi = enmask[y:y+h,x:x+w]
-				roi = frame[y:y+h,x:x+w]
-				kp, desc = detector.detectAndCompute(roi, None)
-				distancia = maxint
-				if len(kp)>4:
-					personasDetectadas += 1
-					for par in galeria:
-						#raw_matches = matcher.knnMatch(par.descriptor, trainDescriptors = desc, k = 2) #2		
-						matches = matcher.match(par.descriptor, desc) #este funciona
-						matches = sorted(matches, key = lambda x:x.distance)
-						if len(matches)>0:
-							if matches[0].distance < distancia:
-								distancia = matches[0].distance
-								imagenElegida = par.image
-								keypointsElegidos = par.keypoints
-								matchesElegidos = matches
-					#print 'distancia:',distancia	
-					matches_bajoUmbral = []
-					for m in matchesElegidos:
-						if m.distance < distanciaUmbral:
-							matches_bajoUmbral.append(m)
-					#print 'matches_bajoUmbral:',len(matches_bajoUmbral)
-					if len(matches_bajoUmbral)>=minMatches:
-						img3 = cv2.drawMatches(imagenElegida,keypointsElegidos,roi,kp,matches_bajoUmbral,imagenElegida,flags=2)
-						cv2.imshow('img3',img3)
-						r = cv2.waitKey(10000)
-						if r == ord('1'):
-							TP += 1
-						elif r == ord('2'):
-							FP += 1
-		cv2.imshow('frame',frame)
-		#cv2.imshow('fgmask',fgmask)
-		#cv2.imshow('thresh',thresh)
-		#cv2.imshow('enmask',enmask)
-		if cv2.waitKey(20) & 0xFF == ord('q'):
-			# When everything done, release the capture
-			break
-		#print 'frame:',i, ' rate: ', 1. / t1
-
-	precision=float(TP)/float(TP+FP)
-	
-	f=open('resultados.csv','a')
-	print >>f,'pruebas,',TP+FP
-	print >>f,'TP,',TP
-	print >>f,'FP,',FP
-	print >>f,'precision,',precision
-	print >>f,'Archivo,',archivo
-	print >>f,'-------------------------------'
-	f.close()
-	cap.release()
-
 def analizar(nombre,galeria,archivo):
 	global modo, minArea1, minArea2, parametros_camara
 	global frame_interval, thresholdSombra, proporcionMinima, frame_interval1
 	global distanciaUmbral, minMatches, frame_interval, proporcionMinima, frame_interval2
 	cap = cv2.VideoCapture(nombre)
+	#cap = cv2.VideoCapture(0)
 	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
 	#kernel = np.ones((3,3),np.uint8)
 	fgbg = cv2.createBackgroundSubtractorMOG2(detectShadows=True)
@@ -196,6 +39,9 @@ def analizar(nombre,galeria,archivo):
 		ret, frame = cap.read() # Capture frame-by-frame
 		if ret == False:
 			break
+		conRectangulo = frame.copy()
+		conPoligono = frame.copy()
+		conTodo = frame.copy()
 		#gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # convertir frame a escala de grises
 		fgmaskConRuido = fgbg.apply(frame) # detectar primer plano en movimiento sin sombras
 		fgmaskConSombra = fgbg1.apply(frame) # detectar primer plano en movimiento con sombras
@@ -211,18 +57,34 @@ def analizar(nombre,galeria,archivo):
 		#_, contours0,hierarchy = cv2.findContours(fgmask,cv2.RETR_LIST,cv2.CHAIN_APPROX_SIMPLE) #metodo paper
 		contours = [cv2.approxPolyDP(cnt, 3, True) for cnt in contours0]
 		# Find the index of the largest contour
-		areas = [cv2.contourArea(c) for c in contours]
-
+		#areas = [cv2.contourArea(c) for c in contours]
+		#if len(areas) > 0:
+		maxArea = 0
+		cnt = None
+		#cv2.drawContours(frame,contours,-1,(0,255,0))
+		con = []
 		
-		if len(areas) > 0:
-			#print 'ROIs:',len(areas)
-			max_index = np.argmax(areas)
-			cnt=contours[max_index]
-			x,y,w,h = cv2.boundingRect(cnt)
-			area = w * h
-			proporcion = h / float(w)
-			
+		for c in contours:
+			#hull = cv2.convexHull(c)
+			x1,y1,w1,h1 = cv2.boundingRect(c)
+			#cv2.rectangle(frame,(x1,y1),(x1+w1,y1+h1),(255,0,0),1) #dibujar rectangulo
+			proporcion = h1 / float(w1)
+			if proporcion > proporcionMinima:
+				if cv2.contourArea(c) > maxArea:
+					x,y,w,h = cv2.boundingRect(c)
+					maxArea = cv2.contourArea(c)
+					area = w * h
+					cnt = c
+					con = []
+					con.append(c)
+					proporcion = h / float(w)
+					
+		if not cnt == None:
 			minArea = 0
+			#cv2.drawContours(conTodo,con,0,(0,0,255))
+			#cv2.drawContours(conPoligono,con,-1,(0,0,255))
+			#cv2.rectangle(conRectangulo,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
+			#cv2.rectangle(conTodo,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
 			if modo == 'agregar':
 				minArea = minArea1
 			elif modo == 'buscar':
@@ -235,39 +97,23 @@ def analizar(nombre,galeria,archivo):
 				minY = parametros_camara[2]
 				maxY = parametros_camara[3]
 				minArea = parametros_camara[4]
-				cv2.rectangle(frame,(minX,minY),(maxX,maxY),(0,255,0),1) #dibujar rectangulo
+				#cv2.rectangle(frame,(minX,minY),(maxX,maxY),(0,255,0),1) #dibujar rectangulo
 				if (x > minX) & (x < maxX) & (y > minY) & (y < maxY) :
 					seguir = True
 			else:
 				seguir = True
 
-			if (area > minArea ) & (proporcion >= proporcionMinima) & seguir: #caviar-area: 500, visor-area: 1000
+			if (area > minArea ) & (proporcion >= proporcionMinima) & seguir: 
 				#print 'proporcion',h/w
 				#print 'area: ', area
-				cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
+				#cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
 				roi = enmask[y:y+h,x:x+w]
 				roiRGB = frame[y:y+h,x:x+w]
-				cv2.imshow('roi',roi)
+				#cv2.imshow('roi',roi)
 				roi = cv2.cvtColor(roi,cv2.COLOR_BGR2HSV)
 				#roi = frame[y:y+h,x:x+w]
 				kp, desc = detector.detectAndCompute(roi, None)
-				'''
-				hist = cv2.calcHist([roi],[0],None,[255],[1,255])
-				#colorPrincipal = np.argmax(hist)
-				#print colorPrincipal
-				
-				colorPrincipal = 0
-				index = 0
-				maxValue = 0
-				#hist[0] = 0 
-				for a in hist:
-					#print maxValue,int(a), maxValue < int(a)
-					if maxValue < int(a):
-						maxValue = int(a)
-						colorPrincipal = index
-					index += 1 
-				print colorPrincipal
-				'''
+
 				if modo == 'agregar': #MODO AGREGAR
 					r = cv2.waitKey(10000)
 					if r == ord('1'):
@@ -275,7 +121,11 @@ def analizar(nombre,galeria,archivo):
 						galeria.append(par)	
 						print 'en galeria:',len(galeria)
 					else:
-						print 'en galeria:',len(galeria)
+						print '------------'
+						print 'len(keypoints)', len(kp)
+						for point in kp:
+							print '{} {} {} {} {} {}'.format(point.pt, point.size, point.angle, point.response, point.octave, point.class_id)
+						#print 'en galeria:',len(galeria)
 				elif modo == 'buscar': #MODO BUSCAR
 					distancia = maxint
 					if len(kp)>4:
@@ -310,11 +160,14 @@ def analizar(nombre,galeria,archivo):
 									if TP + FP > 0:
 										print 'precision: ', TP / float(TP+FP)
 		cv2.imshow('original',frame)
-		cv2.imshow('fgmaskConRuido',fgmaskConRuido)
-		cv2.imshow('fgmaskSinRuido',fgmaskSinRuido)
-		cv2.imshow('fgmaskConSombra',fgmaskConSombra)
-		cv2.imshow('mascara',mascara)
-		cv2.imshow('enmask',enmask)
+		#cv2.imshow('fgmaskConRuido',fgmaskConRuido)
+		#cv2.imshow('fgmaskSinRuido',fgmaskSinRuido)
+		#cv2.imshow('fgmaskConSombra',fgmaskConSombra)
+		cv2.imshow('conRectangulo',conRectangulo)
+		cv2.imshow('conPoligono',conPoligono)
+		cv2.imshow('conTodo',conTodo)
+		#cv2.imshow('mascara',mascara)
+		#cv2.imshow('enmask',enmask)
 		r = cv2.waitKey(20)
 		if r == ord('q'):
 			break

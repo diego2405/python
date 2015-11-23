@@ -1510,3 +1510,771 @@ FP, 0
 precision, error
 Archivo, EnterExitCrossingPaths1front.mpg
 -------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,1.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,1.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,1.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShopReenter1front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShop2front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShopReenter1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneLeaveShopReenter2front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneShopOneWait1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneShopOneWait2front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, OneStopEnter1front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths1front.mpg
+-------------------------------
+tamano galeria, 0
+pruebas, 0
+TP, 0
+FP, 0
+precision, error
+Archivo, EnterExitCrossingPaths2front.mpg
+-------------------------------
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
+Metodo, DR
+Espacio colores, HSV
+distanciaUmbral,180
+minMatches,1
+frame_interval1,2
+frame_interval2,2
+minArea1,3000
+minArea2,400
+proporcionMinima,2.0
