@@ -6,11 +6,12 @@ from detectar_movimiento import detectar
 from common import draw_keypoints, anorm, getsize
 from find_obj import explore_match, filter_matches
 
-class Par():
-	def __init__(self,keypoints,descriptor,image,nombreVideo):
+class Tupla():
+	def __init__(self,keypoints,descriptor,imageRGB,imageHSV,nombreVideo):
 		self.keypoints = keypoints
 		self.descriptor = descriptor
-		self.image = image
+		self.imageRGB = imageRGB
+		self.imageHSV = imageHSV
 		self.nombreVideo = nombreVideo
 
 
@@ -26,6 +27,7 @@ def analizar(nombre,galeria,archivo):
 	fgbg1 = cv2.createBackgroundSubtractorMOG2(detectShadows=False)
 	detector = cv2.xfeatures2d.SIFT_create()
 	norm = cv2.NORM_L2
+	#matcher = cv2.BFMatcher(norm)
 	matcher = cv2.BFMatcher(norm)
 	maxint = pow(2,63)-1
 	i=0
@@ -109,16 +111,16 @@ def analizar(nombre,galeria,archivo):
 				#cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
 				roi = enmask[y:y+h,x:x+w]
 				roiRGB = frame[y:y+h,x:x+w]
-				#cv2.imshow('roi',roi)
-				roi = cv2.cvtColor(roi,cv2.COLOR_BGR2HSV)
+				cv2.imshow('roi',roiRGB)
+				roiHSV = cv2.cvtColor(roi,cv2.COLOR_BGR2HSV)
 				#roi = frame[y:y+h,x:x+w]
-				kp, desc = detector.detectAndCompute(roi, None)
+				kp, desc = detector.detectAndCompute(roiHSV, None)
 
 				if modo == 'agregar': #MODO AGREGAR
 					r = cv2.waitKey(10000)
 					if r == ord('1'):
-						par = Par(kp,desc,roiRGB,nombre)		
-						galeria.append(par)	
+						tupla = Tupla(kp,desc,roiRGB,roiHSV,nombre)		
+						galeria.append(tupla)	
 						print 'en galeria:',len(galeria)
 					else:
 						print '------------'
@@ -131,23 +133,46 @@ def analizar(nombre,galeria,archivo):
 					if len(kp)>4:
 						personasDetectadas += 1
 						if len(galeria) > 0:
-							for par in galeria:
-								#raw_matches = matcher.knnMatch(par.descriptor, trainDescriptors = desc, k = 2) #2		
-								matches = matcher.match(par.descriptor, desc) #este funciona
+							matchesElegidos = None
+							for t in galeria:
+								#matches = matcher.knnMatch(t.descriptor, desc, k = 2) #2		
+								matches = matcher.match(t.descriptor, desc) #este funciona
 								matches = sorted(matches, key = lambda x:x.distance)
+								'''
+								# Need to draw only good matches, so create a mask
+								matchesMask = [[0,0] for i in xrange(len(matches))]
+								for i,(m,n) in enumerate(matches):
+									if m.distance < 0.7 * n.distance:
+										matchesMask[i]=[1,0]
+										if m.distance < distancia:
+											distancia = m.distance
+											imagenElegida = t.imageRGB
+											keypointsElegidos = t.keypoints
+											matchesElegidos = matches
+
+								'''
 								if len(matches)>0:
 									if matches[0].distance < distancia:
 										distancia = matches[0].distance
-										imagenElegida = par.image
-										keypointsElegidos = par.keypoints
+										imagenElegida = t.imageRGB
+										keypointsElegidos = t.keypoints
 										matchesElegidos = matches
 							#print 'distancia:',distancia	
+							
 							matches_bajoUmbral = []
 							for m in matchesElegidos:
 								if m.distance < distanciaUmbral:
 									matches_bajoUmbral.append(m)
 							#print 'matches_bajoUmbral:',len(matches_bajoUmbral)
+							
 							if len(matches_bajoUmbral)>=minMatches:
+								'''
+								draw_params = dict(matchColor = (0,255,0),
+								                   singlePointColor = (255,0,0),
+								                   matchesMask = matchesMask,
+								                   flags = 0)
+								img3 = cv2.drawMatchesKnn(imagenElegida,keypointsElegidos,roiRGB,kp,matchesElegidos,None,**draw_params)
+								'''
 								img3 = cv2.drawMatches(imagenElegida,keypointsElegidos,roiRGB,kp,matches_bajoUmbral,imagenElegida,flags=2)
 								cv2.imshow('img3',img3)
 								r = cv2.waitKey(10000)
@@ -163,9 +188,9 @@ def analizar(nombre,galeria,archivo):
 		#cv2.imshow('fgmaskConRuido',fgmaskConRuido)
 		#cv2.imshow('fgmaskSinRuido',fgmaskSinRuido)
 		#cv2.imshow('fgmaskConSombra',fgmaskConSombra)
-		cv2.imshow('conRectangulo',conRectangulo)
-		cv2.imshow('conPoligono',conPoligono)
-		cv2.imshow('conTodo',conTodo)
+		#cv2.imshow('conRectangulo',conRectangulo)
+		#cv2.imshow('conPoligono',conPoligono)
+		#cv2.imshow('conTodo',conTodo)
 		#cv2.imshow('mascara',mascara)
 		#cv2.imshow('enmask',enmask)
 		r = cv2.waitKey(20)
@@ -182,16 +207,19 @@ def analizar(nombre,galeria,archivo):
 
 	f=open('resultados.csv','a')
 	if modo == 'buscar': #MODO BUSCAR
-		print >>f,'tamano galeria,',len(galeria)
 		precision='error'
 		if TP + FP > 0:
 			precision=float(TP)/float(TP+FP)
+		print >>,f, archivo,precision,TP,FP,TP+FP,len(galeria)
+		'''
+		print >>f,'tamano galeria,',len(galeria)
 		print >>f,'pruebas,',TP+FP
 		print >>f,'TP,',TP
 		print >>f,'FP,',FP
 		print >>f,'precision,',precision
 		print >>f,'Archivo,',archivo
 		print >>f,'-------------------------------'		
+		'''
 	f.close()
 	cap.release()
 
