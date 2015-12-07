@@ -16,19 +16,18 @@ class Tupla():
 
 
 def analizar(nombre,galeria,archivo):
-	global modo, minArea1, minArea2, parametros_camara
+	global modo, minArea1, minArea2, parametros_camara, usoMascara, norma
 	global frame_interval, thresholdSombra, proporcionMinima, frame_interval1
 	global distanciaUmbral, minMatches, frame_interval, proporcionMinima, frame_interval2
 	cap = cv2.VideoCapture(nombre)
-	#cap = cv2.VideoCapture(0)
 	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
 	#kernel = np.ones((3,3),np.uint8)
 	fgbg = cv2.createBackgroundSubtractorMOG2(detectShadows=True)
 	fgbg1 = cv2.createBackgroundSubtractorMOG2(detectShadows=False)
 	detector = cv2.xfeatures2d.SIFT_create()
-	norm = cv2.NORM_L2
+	norm = cv2.NORM_L1
 	#matcher = cv2.BFMatcher(norm)
-	matcher = cv2.BFMatcher(norm)
+	matcher = cv2.BFMatcher(norm, True)
 	maxint = pow(2,63)-1
 	i=0
 	roi_index = 0
@@ -67,7 +66,6 @@ def analizar(nombre,galeria,archivo):
 		con = []
 		
 		for c in contours:
-			#hull = cv2.convexHull(c)
 			x1,y1,w1,h1 = cv2.boundingRect(c)
 			#cv2.rectangle(frame,(x1,y1),(x1+w1,y1+h1),(255,0,0),1) #dibujar rectangulo
 			proporcion = h1 / float(w1)
@@ -80,18 +78,12 @@ def analizar(nombre,galeria,archivo):
 					con = []
 					con.append(c)
 					proporcion = h / float(w)
-					
 		if not cnt == None:
 			minArea = 0
-			#cv2.drawContours(conTodo,con,0,(0,0,255))
-			#cv2.drawContours(conPoligono,con,-1,(0,0,255))
-			#cv2.rectangle(conRectangulo,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
-			#cv2.rectangle(conTodo,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
 			if modo == 'agregar':
 				minArea = minArea1
 			elif modo == 'buscar':
-				minArea = minArea2
-
+				minArea = minArea1
 			if '180957' in archivo:
 				seguir = False
 				minX = parametros_camara[0]
@@ -106,29 +98,28 @@ def analizar(nombre,galeria,archivo):
 				seguir = True
 
 			if (area > minArea ) & (proporcion >= proporcionMinima) & seguir: 
-				#print 'proporcion',h/w
-				#print 'area: ', area
-				#cv2.rectangle(frame,(x,y),(x+w,y+h),(0,255,0),1) #dibujar rectangulo
-				roi = enmask[y:y+h,x:x+w]
-				roiRGB = frame[y:y+h,x:x+w]
-				cv2.imshow('roi',roiRGB)
-				roiHSV = cv2.cvtColor(roi,cv2.COLOR_BGR2HSV)
-				#roi = frame[y:y+h,x:x+w]
-				kp, desc = detector.detectAndCompute(roiHSV, None)
-
+				if usoMascara:
+					roiRGB = enmask[y:y+h,x:x+w]
+				else:
+					roiRGB = frame[y:y+h,x:x+w]
+				cv2.imshow('roiRGB',roiRGB)
+				roiHSV = cv2.cvtColor(roiRGB,cv2.COLOR_BGR2HSV)
+				#cv2.imshow('roiHSV',roiHSV)
 				if modo == 'agregar': #MODO AGREGAR
 					r = cv2.waitKey(10000)
 					if r == ord('1'):
+						if espacioColores == 'RGB':
+							kp, desc = detector.detectAndCompute(roiRGB, None)
+						elif espacioColores == 'HSV':
+							kp, desc = detector.detectAndCompute(roiHSV, None)
 						tupla = Tupla(kp,desc,roiRGB,roiHSV,nombre)		
 						galeria.append(tupla)	
 						print 'en galeria:',len(galeria)
-					else:
-						print '------------'
-						print 'len(keypoints)', len(kp)
-						for point in kp:
-							print '{} {} {} {} {} {}'.format(point.pt, point.size, point.angle, point.response, point.octave, point.class_id)
-						#print 'en galeria:',len(galeria)
 				elif modo == 'buscar': #MODO BUSCAR
+					if espacioColores == 'RGB':
+							kp, desc = detector.detectAndCompute(roiRGB, None)
+					elif espacioColores == 'HSV':
+							kp, desc = detector.detectAndCompute(roiHSV, None)
 					distancia = maxint
 					if len(kp)>4:
 						personasDetectadas += 1
@@ -137,7 +128,19 @@ def analizar(nombre,galeria,archivo):
 							for t in galeria:
 								#matches = matcher.knnMatch(t.descriptor, desc, k = 2) #2		
 								matches = matcher.match(t.descriptor, desc) #este funciona
+								#print len(matches)
 								matches = sorted(matches, key = lambda x:x.distance)
+								if len(matches) >= 10:
+									tempDist = 0
+									for m in matches[:10]:
+										tempDist += m.distance
+									print 'distancia promedio',tempDist,distancia
+									if tempDist < distancia:
+										distancia = tempDist
+										imagenElegida = t.imageRGB
+										keypointsElegidos = t.keypoints
+										matchesElegidos = matches
+
 								'''
 								# Need to draw only good matches, so create a mask
 								matchesMask = [[0,0] for i in xrange(len(matches))]
@@ -151,12 +154,16 @@ def analizar(nombre,galeria,archivo):
 											matchesElegidos = matches
 
 								'''
+
+								'''
 								if len(matches)>0:
+									#print matches[0].distance
 									if matches[0].distance < distancia:
 										distancia = matches[0].distance
 										imagenElegida = t.imageRGB
 										keypointsElegidos = t.keypoints
 										matchesElegidos = matches
+								'''
 							#print 'distancia:',distancia	
 							
 							matches_bajoUmbral = []
@@ -173,7 +180,14 @@ def analizar(nombre,galeria,archivo):
 								                   flags = 0)
 								img3 = cv2.drawMatchesKnn(imagenElegida,keypointsElegidos,roiRGB,kp,matchesElegidos,None,**draw_params)
 								'''
-								img3 = cv2.drawMatches(imagenElegida,keypointsElegidos,roiRGB,kp,matches_bajoUmbral,imagenElegida,flags=2)
+								img3 = cv2.drawMatches(
+									imagenElegida,
+									keypointsElegidos,
+									roiRGB,
+									kp,
+									matches_bajoUmbral,
+									imagenElegida,
+									flags=2)
 								cv2.imshow('img3',img3)
 								r = cv2.waitKey(10000)
 								if r == ord('1'):
@@ -184,6 +198,7 @@ def analizar(nombre,galeria,archivo):
 									FP += 1
 									if TP + FP > 0:
 										print 'precision: ', TP / float(TP+FP)
+									
 		cv2.imshow('original',frame)
 		#cv2.imshow('fgmaskConRuido',fgmaskConRuido)
 		#cv2.imshow('fgmaskSinRuido',fgmaskSinRuido)
@@ -203,24 +218,32 @@ def analizar(nombre,galeria,archivo):
 			modo = 'agregar'
 			print modo
 
-		#print 'frame:',i, ' rate: ', 1. / t1
+		cv2.destroyWindow('img3')
+		cv2.destroyWindow('roiRGB')
+	
 
 	f=open('resultados.csv','a')
-	if modo == 'buscar': #MODO BUSCAR
-		precision='error'
-		if TP + FP > 0:
-			precision=float(TP)/float(TP+FP)
-		print >>,f, archivo,precision,TP,FP,TP+FP,len(galeria)
-		'''
-		print >>f,'tamano galeria,',len(galeria)
-		print >>f,'pruebas,',TP+FP
-		print >>f,'TP,',TP
-		print >>f,'FP,',FP
-		print >>f,'precision,',precision
-		print >>f,'Archivo,',archivo
-		print >>f,'-------------------------------'		
-		'''
+	precision='error'
+	if TP + FP > 0:
+		precision=float(TP)/float(TP+FP)
+	#######  ar pr tp fp ts ga dM pM aM co ma mo no
+	linea = '{},{},{},{},{},{},{},{},{},{},{},{},{}'.format(
+		archivo,
+		precision,
+		TP,
+		FP,
+		TP+FP,
+		len(galeria),
+		distanciaUmbral,
+		proporcionMinima,
+		minArea1,
+		espacioColores,
+		usoMascara,
+		modo,
+		norma)
+	print >>f, linea
 	f.close()
+
 	cap.release()
 
 
@@ -233,7 +256,7 @@ wd = '/home/diego/Videos-REID/caviar/shoping'
 descriptores=[]
 #playVideo(0,descriptores)
 
-distanciaUmbral = 180
+
 minMatches = 1
 frame_interval1 = 2
 frame_interval2 = 2	
@@ -242,18 +265,15 @@ minArea1 = 3000
 minArea2 = 400 
 proporcionMinima = 2.0
 modo = 'agregar'
+espacioColores = 'RGB'
+usoMascara = False
+norma = 'L1'
 
-f=open('resultados.csv','a')
-print >>f,'Metodo, DR'
-print >>f,'Espacio colores, HSV'
-print >>f,'distanciaUmbral,{}'.format(distanciaUmbral)
-print >>f,'minMatches,{}'.format(minMatches)
-print >>f,'frame_interval1,{}'.format(frame_interval1)
-print >>f,'frame_interval2,{}'.format(frame_interval2)
-print >>f,'minArea1,{}'.format(minArea1)
-print >>f,'minArea2,{}'.format(minArea2)
-print >>f,'proporcionMinima,{}'.format(proporcionMinima)
-f.close()
+if norma == 'L1':
+	distanciaUmbral = 1200
+elif norma == 'L2':
+	distanciaUmbral = 180
+
 
 files = os.listdir(wd)
 files = sorted(files)
@@ -275,7 +295,7 @@ for f in files:
 		#galeria = []  #galeria nueva para cada video
 		#almacenarKeypoints(nombre,galeria)
 	elif 'front.mpg' in f:
-		#continue
+		continue
 		modo = 'buscar'
 	elif '180957' in f:
 		continue
