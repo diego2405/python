@@ -5,6 +5,7 @@ import numpy as np
 from detectar_movimiento import detectar
 from common import draw_keypoints, anorm, getsize
 from find_obj import explore_match, filter_matches
+from matplotlib import pyplot as plt
 
 class Tupla():
 	def __init__(self,keypoints,descriptor,imageRGB,imageHSV,nombreVideo):
@@ -120,6 +121,19 @@ def analizar(nombre,galeria,archivo):
 							kp, desc = detector.detectAndCompute(roiRGB, None)
 					elif espacioColores == 'HSV':
 							kp, desc = detector.detectAndCompute(roiHSV, None)
+					ii = 1
+					ss = len(galeria)
+					for t in galeria:
+						if ii < 2:
+							resized_image = cv2.resize(t.imageRGB, (50, 200)) 
+							img1 = resized_image.copy()
+						else:
+							resized_image = cv2.resize(t.imageRGB, (50, 200)) 
+							img2 = resized_image.copy()
+							img1 = np.concatenate((img1, img2), axis=1)
+						#plt.subplot(int('{}{}{}'.format(1,ss,ii))),plt.imshow(t.imageRGB,'gray')
+						ii += 1
+					cv2.imshow('galeria',img1)
 					distancia = maxint
 					if len(kp)>4:
 						personasDetectadas += 1
@@ -134,7 +148,7 @@ def analizar(nombre,galeria,archivo):
 									tempDist = 0
 									for m in matches[:10]:
 										tempDist += m.distance
-									print 'distancia promedio',tempDist,distancia
+									#print 'distancia promedio',tempDist,distancia
 									if tempDist < distancia:
 										distancia = tempDist
 										imagenElegida = t.imageRGB
@@ -154,25 +168,15 @@ def analizar(nombre,galeria,archivo):
 											matchesElegidos = matches
 
 								'''
-
-								'''
-								if len(matches)>0:
-									#print matches[0].distance
-									if matches[0].distance < distancia:
-										distancia = matches[0].distance
-										imagenElegida = t.imageRGB
-										keypointsElegidos = t.keypoints
-										matchesElegidos = matches
-								'''
-							#print 'distancia:',distancia	
-							
+							'''
 							matches_bajoUmbral = []
 							for m in matchesElegidos:
 								if m.distance < distanciaUmbral:
 									matches_bajoUmbral.append(m)
 							#print 'matches_bajoUmbral:',len(matches_bajoUmbral)
-							
-							if len(matches_bajoUmbral)>=minMatches:
+							'''
+							#if len(matches_bajoUmbral)>=minMatches:
+							if not matchesElegidos == None:
 								'''
 								draw_params = dict(matchColor = (0,255,0),
 								                   singlePointColor = (255,0,0),
@@ -185,7 +189,8 @@ def analizar(nombre,galeria,archivo):
 									keypointsElegidos,
 									roiRGB,
 									kp,
-									matches_bajoUmbral,
+									#matches_bajoUmbral,
+									matchesElegidos,  
 									imagenElegida,
 									flags=2)
 								cv2.imshow('img3',img3)
