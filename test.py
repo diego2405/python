@@ -1,5 +1,7 @@
 import os
 import cv2
+import sys
+import time
 import numpy as np
 #from app import playVideo, Par
 from detectar_movimiento import detectar
@@ -16,10 +18,12 @@ class Tupla():
 		self.nombreVideo = nombreVideo
 
 
+
 def analizar(nombre,galeria,archivo):
 	global modo, minArea1, minArea2, parametros_camara, usoMascara, norma
 	global frame_interval, thresholdSombra, proporcionMinima, frame_interval1
-	global distanciaUmbral, minMatches, frame_interval, proporcionMinima, frame_interval2
+	global distanciaUmbral, numeroMinimoMatches, porcentajeMinimoMatches, frame_interval, proporcionMinima, frame_interval2
+	#cap = cv2.VideoCapture(0)
 	cap = cv2.VideoCapture(nombre)
 	kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))
 	#kernel = np.ones((3,3),np.uint8)
@@ -30,14 +34,34 @@ def analizar(nombre,galeria,archivo):
 	#matcher = cv2.BFMatcher(norm)
 	matcher = cv2.BFMatcher(norm, True)
 	maxint = pow(2,63)-1
+	
+	#cargar galeria inicial para caviar
+	galeria = []
+	filesGaleria = os.listdir('/home/diego/memoria/python/galeria1')
+	i = 1
+	for f in filesGaleria:
+		imageRGB = cv2.imread('galeria1/{}'.format(f),cv2.IMREAD_COLOR)
+		imageHSV = cv2.cvtColor(imageRGB,cv2.COLOR_BGR2HSV)
+		if espacioColores == 'RGB':
+			kp, desc = detector.detectAndCompute(imageRGB, None)
+		elif espacioColores == 'HSV':
+			kp, desc = detector.detectAndCompute(imageHSV, None)
+		tupla = Tupla(kp,desc,imageRGB,imageHSV,f)		
+		galeria.append(tupla)
+		i += 1	
+	
 	i=0
 	roi_index = 0
-	levels=1
 	TP=0
 	FP=0
+	countTiempoPromedioMatch = 0
+	tiempoPromedioMatch = 0
 	personasDetectadas = 0
+	promedioSumaDistanciaMinimaCorrecta = 0
+	promedioSumaDistanciaMinimaIncorrecta = 0
 	while True:
 		i=i+1
+
 		ret, frame = cap.read() # Capture frame-by-frame
 		if ret == False:
 			break
@@ -92,7 +116,7 @@ def analizar(nombre,galeria,archivo):
 				minY = parametros_camara[2]
 				maxY = parametros_camara[3]
 				minArea = parametros_camara[4]
-				#cv2.rectangle(frame,(minX,minY),(maxX,maxY),(0,255,0),1) #dibujar rectangulo
+				cv2.rectangle(frame,(minX,minY),(maxX,maxY),(0,255,0),1) #dibujar rectangulo
 				if (x > minX) & (x < maxX) & (y > minY) & (y < maxY) :
 					seguir = True
 			else:
@@ -116,6 +140,16 @@ def analizar(nombre,galeria,archivo):
 						tupla = Tupla(kp,desc,roiRGB,roiHSV,nombre)		
 						galeria.append(tupla)	
 						print 'en galeria:',len(galeria)
+					elif r == ord('n'):
+						break
+					elif r == ord('q'):
+						sys.exit()
+					elif r == ord('b'):
+						modo = 'buscar'
+						print modo
+					elif r == ord('a'):
+						modo = 'agregar'
+						print modo
 				elif modo == 'buscar': #MODO BUSCAR
 					if espacioColores == 'RGB':
 							kp, desc = detector.detectAndCompute(roiRGB, None)
@@ -125,13 +159,18 @@ def analizar(nombre,galeria,archivo):
 					ss = len(galeria)
 					for t in galeria:
 						if ii < 2:
-							resized_image = cv2.resize(t.imageRGB, (50, 200)) 
+							r = 200.0 / t.imageRGB.shape[0]
+							dim = (int(t.imageRGB.shape[1] * r),200)
+							resized_image = cv2.resize(t.imageRGB, dim, interpolation = cv2.INTER_AREA)
 							img1 = resized_image.copy()
 						else:
-							resized_image = cv2.resize(t.imageRGB, (50, 200)) 
+							r = 200.0 / t.imageRGB.shape[0]
+							dim = (int(t.imageRGB.shape[1] * r),200)
+							resized_image = cv2.resize(t.imageRGB, dim, interpolation = cv2.INTER_AREA)
 							img2 = resized_image.copy()
 							img1 = np.concatenate((img1, img2), axis=1)
-						#plt.subplot(int('{}{}{}'.format(1,ss,ii))),plt.imshow(t.imageRGB,'gray')
+						#kp, desc = detector.detectAndCompute(t.imageRGB, None)
+						#cv2.imwrite('{}_{}.png'.format(ii,len(kp)),t.imageRGB)
 						ii += 1
 					cv2.imshow('galeria',img1)
 					distancia = maxint
@@ -140,42 +179,31 @@ def analizar(nombre,galeria,archivo):
 						if len(galeria) > 0:
 							matchesElegidos = None
 							for t in galeria:
-								#matches = matcher.knnMatch(t.descriptor, desc, k = 2) #2		
+								tempMinimoMatches = numeroMinimoMatches
+								#matches = matcher.knnMatch(t.descriptor, desc, k = 2) #2	
+								t0 = time.clock()	
 								matches = matcher.match(t.descriptor, desc) #este funciona
+								t1 = time.clock()
+								tiempoPromedioMatch += (t1 - t0)
+								countTiempoPromedioMatch += 1
 								#print len(matches)
 								matches = sorted(matches, key = lambda x:x.distance)
-								if len(matches) >= 10:
+								#numeroMinimoMatches = int(len(matches) * porcentajeMinimoMatches)
+								
+								if tempMinimoMatches > len(matches):
+									tempMinimoMatches = len(matches)
+								print tempMinimoMatches, len(matches)
+								if len(matches) >= tempMinimoMatches & tempMinimoMatches > 0:
 									tempDist = 0
-									for m in matches[:10]:
+									for m in matches[:tempMinimoMatches]:
 										tempDist += m.distance
-									#print 'distancia promedio',tempDist,distancia
+									tempDist /= tempMinimoMatches
 									if tempDist < distancia:
 										distancia = tempDist
 										imagenElegida = t.imageRGB
 										keypointsElegidos = t.keypoints
 										matchesElegidos = matches
-
-								'''
-								# Need to draw only good matches, so create a mask
-								matchesMask = [[0,0] for i in xrange(len(matches))]
-								for i,(m,n) in enumerate(matches):
-									if m.distance < 0.7 * n.distance:
-										matchesMask[i]=[1,0]
-										if m.distance < distancia:
-											distancia = m.distance
-											imagenElegida = t.imageRGB
-											keypointsElegidos = t.keypoints
-											matchesElegidos = matches
-
-								'''
-							'''
-							matches_bajoUmbral = []
-							for m in matchesElegidos:
-								if m.distance < distanciaUmbral:
-									matches_bajoUmbral.append(m)
-							#print 'matches_bajoUmbral:',len(matches_bajoUmbral)
-							'''
-							#if len(matches_bajoUmbral)>=minMatches:
+							print '---'
 							if not matchesElegidos == None:
 								'''
 								draw_params = dict(matchColor = (0,255,0),
@@ -197,14 +225,28 @@ def analizar(nombre,galeria,archivo):
 								r = cv2.waitKey(10000)
 								if r == ord('1'):
 									TP += 1
+									if tempMinimoMatches > 0:
+										promedioSumaDistanciaMinimaCorrecta += distancia/tempMinimoMatches
 									if TP + FP > 0:
 										print 'precision: ', TP / float(TP+FP)
 								elif r == ord('2'):
 									FP += 1
+									if tempMinimoMatches > 0:
+										promedioSumaDistanciaMinimaIncorrecta += distancia/tempMinimoMatches
 									if TP + FP > 0:
 										print 'precision: ', TP / float(TP+FP)
+								elif r == ord('n'):
+									break
+								elif r == ord('q'):
+									sys.exit()
+								elif r == ord('b'):
+									modo = 'buscar'
+									print modo
+								elif r == ord('a'):
+									modo = 'agregar'
+									print modo
 									
-		cv2.imshow('original',frame)
+		cv2.imshow('stream',frame)
 		#cv2.imshow('fgmaskConRuido',fgmaskConRuido)
 		#cv2.imshow('fgmaskSinRuido',fgmaskSinRuido)
 		#cv2.imshow('fgmaskConSombra',fgmaskConSombra)
@@ -214,14 +256,58 @@ def analizar(nombre,galeria,archivo):
 		#cv2.imshow('mascara',mascara)
 		#cv2.imshow('enmask',enmask)
 		r = cv2.waitKey(20)
-		if r == ord('q'):
+		if r == ord('n'):
 			break
+		elif r == ord('q'):
+			sys.exit()
 		elif r == ord('b'):
 			modo = 'buscar'
 			print modo
 		elif r == ord('a'):
 			modo = 'agregar'
 			print modo
+		elif r == ord('s'):
+			print 'guardando'
+			f=open('resultados.csv','a')
+			precision='error'
+			if TP + FP > 0:
+				precision=float(TP)/float(TP+FP)
+				if TP > 0:
+					promedioSumaDistanciaMinimaCorrecta /= TP
+				if FP > 0:
+					promedioSumaDistanciaMinimaIncorrecta /= FP
+			
+			if countTiempoPromedioMatch > 0:
+				tiempoPromedioMatch /= countTiempoPromedioMatch
+			#######  ar pr tp fp ts ga mM dM pM aM co ma no mc mi tm pm
+			linea = '{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}'.format(
+				archivo, #0
+				precision, #1
+				TP,#2
+				FP,#3
+				TP+FP,#4
+				len(galeria),#5
+				distanciaUmbral,#6
+				proporcionMinima,#7
+				minArea1,#8
+				espacioColores,#9
+				usoMascara,#10
+				norma,#11
+				promedioSumaDistanciaMinimaCorrecta,#12
+				promedioSumaDistanciaMinimaIncorrecta,#13
+				numeroMinimoMatches,#14
+				tiempoPromedioMatch, #15
+				porcentajeMinimoMatches) #16
+			if not precision == 'error':
+				print >>f, linea
+			f.close()
+			precision='error'
+			TP = 0
+			FP = 0
+			promedioSumaDistanciaMinimaCorrecta = 0
+			promedioSumaDistanciaMinimaIncorrecta = 0
+			tiempoPromedioMatch = 0
+			countTiempoPromedioMatch = 0
 
 		cv2.destroyWindow('img3')
 		cv2.destroyWindow('roiRGB')
@@ -231,26 +317,45 @@ def analizar(nombre,galeria,archivo):
 	precision='error'
 	if TP + FP > 0:
 		precision=float(TP)/float(TP+FP)
-	#######  ar pr tp fp ts ga dM pM aM co ma mo no
-	linea = '{},{},{},{},{},{},{},{},{},{},{},{},{}'.format(
-		archivo,
-		precision,
-		TP,
-		FP,
-		TP+FP,
-		len(galeria),
-		distanciaUmbral,
-		proporcionMinima,
-		minArea1,
-		espacioColores,
-		usoMascara,
-		modo,
-		norma)
-	print >>f, linea
+		if TP > 0:
+			promedioSumaDistanciaMinimaCorrecta /= TP
+		if FP > 0:
+			promedioSumaDistanciaMinimaIncorrecta /= FP
+	
+	if countTiempoPromedioMatch > 0:
+		tiempoPromedioMatch /= countTiempoPromedioMatch
+	#######  ar pr tp fp ts ga mM dM pM aM co ma no mc mi tm
+	linea = '{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}'.format(
+		archivo, #0
+		precision, #1
+		TP,#2
+		FP,#3
+		TP+FP,#4
+		len(galeria),#5
+		distanciaUmbral,#6
+		proporcionMinima,#7
+		minArea1,#8
+		espacioColores,#9
+		usoMascara,#10
+		norma,#11
+		promedioSumaDistanciaMinimaCorrecta,#12
+		promedioSumaDistanciaMinimaIncorrecta,#13
+		numeroMinimoMatches,#14
+		tiempoPromedioMatch) #15
+	if not precision == 'error':
+		print >>f, linea
 	f.close()
 
 	cap.release()
 
+'''
+# load the image and show it
+image = cv2.imread("box.png")
+cv2.imshow("original", image)
+cv2.waitKey(0)
+
+print image.shape
+'''
 
 #wd = '/home/diego/Videos-REID/micc_surveillance_dataset/run'
 #wd = '/home/diego/Videos-REID/caviar/Leaving-bags-behind'
@@ -261,18 +366,18 @@ wd = '/home/diego/Videos-REID/caviar/shoping'
 descriptores=[]
 #playVideo(0,descriptores)
 
-
-minMatches = 1
-frame_interval1 = 2
+porcentajeMinimoMatches = 0.05
+numeroMinimoMatches = 16
+frame_interval1 = 4
 frame_interval2 = 2	
 thresholdSombra = 200
 minArea1 = 3000
 minArea2 = 400 
 proporcionMinima = 2.0
-modo = 'agregar'
-espacioColores = 'RGB'
+modo = 'buscar'
+espacioColores = 'HSV'
 usoMascara = False
-norma = 'L1'
+norma = 'L2'
 
 if norma == 'L1':
 	distanciaUmbral = 1200
@@ -280,26 +385,46 @@ elif norma == 'L2':
 	distanciaUmbral = 180
 
 
-files = os.listdir(wd)
+#files = os.listdir(wd)
+files = {
+"EnterExitCrossingPaths1cor.mpg",
+"EnterExitCrossingPaths2cor.mpg",
+"OneLeaveShopReenter1cor.mpg",
+"OneShopOneWait1cor.mpg",
+"OneShopOneWait2cor.mpg",
+"OneStopEnter1cor.mpg",
+"OneStopEnter2cor.mpg",
+"OneStopMoveEnter2cor.mpg",
+"OneStopMoveNoEnter1cor.mpg",
+#"ShopAssistant1cor.mpg",
+#"ShopAssistant2cor.mpg",
+"WalkByShop1cor.mpg"
+}
 files = sorted(files)
 
+
+
 parametros_camara = [] # minX maxX minY maxY minArea
+#parametros_camara = [0,600,150,479,800]
 galeria = []
-i = 1
+#analizar('/home/diego/Videos-REID/Panaderia/ch01-151022-180957-190926.avi',galeria,'ch01-151022-180957-190926.avi')
+#sys.exit()
+i = 0
 size = len(files)
+inicio = time.time()
 for f in files:
-	print modo
-	print '{} de {}'.format(i,size)
 	i += 1
+	print '{} de {}'.format(i,size)
+	
 	nombre = '{}{}{}'.format(wd,'/',f)
 	#if not 'OneStopEnter1cor' in f:
 		#continue
-	if 'cor.mpg' in f:
+	#if 'cor.mpg' in f:
 		#continue
-		modo = 'agregar'
+		#modo = 'agregar'
 		#galeria = []  #galeria nueva para cada video
 		#almacenarKeypoints(nombre,galeria)
-	elif 'front.mpg' in f:
+	if 'front.mpg' in f:
 		continue
 		modo = 'buscar'
 	elif '180957' in f:
@@ -312,5 +437,17 @@ for f in files:
 	#detectar(nombre,frame_interval,parametros_camara)
 	
 cv2.waitKey(0)
+print 'segundos transcurridos',time.time() - inicio
 
-
+'''
+# Need to draw only good matches, so create a mask
+matchesMask = [[0,0] for i in xrange(len(matches))]
+for i,(m,n) in enumerate(matches):
+	if m.distance < 0.7 * n.distance:
+		matchesMask[i]=[1,0]
+		if m.distance < distancia:
+			distancia = m.distance
+			imagenElegida = t.imageRGB
+			keypointsElegidos = t.keypoints
+			matchesElegidos = matches
+'''
